@@ -4,9 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="css/index.css">
   <title>Melon Front</title>
 </head>
 <body>
+  <ul class="artist-list">
+
+  </ul>
+
+  <div id="template">
+    <li id="artist-item-template" class="artist-item">
+      <span class="artist-name"></span>
+      <img src="" alt="" class="artist-img-profile">
+    </li>
+  </div>
+
+
+  <script src="js/axios.js"></script>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script>
+    axios.get('http://localhost:8000/api/artist/')
+    .then(function (response) {
+      // ul.artist-list
+      var artistListElement = $('.artist-list');
+      // 응답의 Artist 정보 목록
+      var artists = response.data.results;
+      // Artist 정보 목록을 순회
+      for (var i = 0; i < artists.length; i++) {
+        var curArtist = artists[i];
+        var curArtistItemElement = $('#artist-item-template').clone();
+
+        curArtistItemElement.find('.artist-name').text(curArtist.name);
+        curArtistItemElement.find('.artist-img-profile').attr('src', curArtist.img_profile);
+        artistListElement.append(curArtistItemElement);
+
+      }
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  </script>
 
 </body>
 </html>
